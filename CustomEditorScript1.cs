@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class CustomEditorWindow : EditorWindow
 {
-    private AudioClip narrationStartClip;
-    private AudioClip narrationEndClip;
-    private AudioClip sync1Clip;
-    private AudioClip sync2Clip;
-    private AudioClip sync3Clip;
-    private AudioClip sync4Clip;
-    private AudioSource audioSource;
+    public AudioClip narrationStartClip;
+    public AudioClip narrationEndClip;
+    public AudioClip sync1Clip;
+    public AudioClip sync2Clip;
+    public AudioClip sync3Clip;
+    public AudioClip sync4Clip;
+    public AudioSource audioSource;
+	
+	public GameObject human_v2;
+  
+	
 
     [MenuItem("Window/Custom Editor Window")]
     public static void ShowWindow()
@@ -17,26 +21,28 @@ public class CustomEditorWindow : EditorWindow
         GetWindow<CustomEditorWindow>("Custom Editor");
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         if (audioSource == null)
         {
-            GameObject audioObject = new GameObject("EditorAudioSource");
+			human_v2 = GameObject.Find("Human_v2");
+			audioSource = human_v2.GetComponent<AudioSource>();
+            /*GameObject audioObject = new GameObject("EditorAudioSource");
             audioSource = audioObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
-            audioObject.hideFlags = HideFlags.HideAndDontSave;
+            audioObject.hideFlags = HideFlags.HideAndDontSave; */
         }
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         if (audioSource != null)
         {
-            DestroyImmediate(audioSource.gameObject);
+            //DestroyImmediate(audioSource.gameObject);
         }
     }
 
-    private void OnGUI()
+    public void OnGUI()
     {
         GUILayout.Label("Audio Clips", EditorStyles.boldLabel);
 
@@ -98,7 +104,7 @@ public class CustomEditorWindow : EditorWindow
         GUILayout.EndHorizontal();
     }
 
-    private void PlayAudio(AudioClip clip)
+    public void PlayAudio(AudioClip clip)
     {
         if (audioSource != null && clip != null)
         {
@@ -111,7 +117,7 @@ public class CustomEditorWindow : EditorWindow
         }
     }
 
-    private void StartWomanFollow()
+    public void StartWomanFollow()
     {
         WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
         if (womanFollow != null)
@@ -125,7 +131,7 @@ public class CustomEditorWindow : EditorWindow
         }
     }
 
-    private void StopWomanFollow()
+    public void StopWomanFollow()
     {
         WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
         if (womanFollow != null)
