@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CustomEditorWindow : EditorWindow
 {
@@ -32,6 +33,11 @@ public class CustomEditorWindow : EditorWindow
     private int buttonsPerPage = 3;
 	
     private Vector2 scrollPosition = Vector2.zero;
+	
+	 
+    public GameObject virtualNavMesh;  // The virtual nav mesh object
+    private Vector3 originalPosition;  // Store the original position of the nav mesh
+    public NavMeshAgent navMeshAgent; // NavMeshAgent for controlling movement
 	
     [MenuItem("Window/Custom Editor Window")]
     public static void ShowWindow()
@@ -106,7 +112,7 @@ public class CustomEditorWindow : EditorWindow
 		    // Call the method to display the carousel of steps
         DisplayCarousel();
        
-		GUILayout.Label("------ Step #1 -------", EditorStyles.boldLabel);
+		GUILayout.Label("----- Steps #1 -----", EditorStyles.boldLabel);
          GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
 
         // Avatar Buttons in a Vertical Column
@@ -141,11 +147,15 @@ public class CustomEditorWindow : EditorWindow
         }
         GUILayout.EndVertical();
 		
-		 // Handshake, Hug, and Reset Buttons in a Vertical Column Beside Avatars
+		
         GUILayout.BeginVertical();
+		 // Handshake, Hug, and Reset Buttons in a Vertical Column Beside Avatars
+		 //GUILayout.Label("----- Conditions #1 -----", EditorStyles.boldLabel);
         if (GUILayout.Button("Handshake", GUILayout.Width(75)))
         {
+			
             TriggerHandshakeAnimation();
+			//StartHandshake();
             Debug.Log("Button Handshake Clicked");
         }
         if (GUILayout.Button("Hug", GUILayout.Width(75)))
@@ -164,6 +174,7 @@ public class CustomEditorWindow : EditorWindow
 
         GUILayout.Space(20);
         
+		GUILayout.Label("----- Environment -----", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Day", GUILayout.Width(50)))
         {
@@ -314,4 +325,47 @@ private void PlayStepClip(int index)
             Debug.LogWarning("WomanFollow component not found in the scene.");
         }
     }
+	
+/*	 // Method to start the handshake animation
+    void StartHandshake()
+    {
+        // Store the original position of the nav mesh
+        originalPosition = virtualNavMesh.transform.position;
+
+        // Trigger the handshake animation
+        human_v2_Controller.SetTrigger("Handshake");
+
+        // Move the nav mesh closer by 0.2 units
+        MoveNavMeshCloser();
+    }
+
+    // Method to move the nav mesh closer by 0.2 units
+    void MoveNavMeshCloser()
+    {
+        // Calculate the new position by moving the nav mesh closer
+        Vector3 newPosition = virtualNavMesh.transform.position + virtualNavMesh.transform.forward * 0.2f;
+
+        // Move the nav mesh using NavMeshAgent
+        navMeshAgent.Move(newPosition - navMeshAgent.transform.position);
+
+        // Optionally, you could smooth this movement over time using a coroutine for a more natural effect.
+    }
+
+    // Method to reset the nav mesh to its original position
+    void ResetNavMeshPosition()
+    {
+        // Move the nav mesh back to the original position
+        navMeshAgent.Move(originalPosition - navMeshAgent.transform.position);
+    }
+
+    // Update method to track the completion of the handshake animation
+    void Update()
+    {
+        // If the animation state is 'Handshake' and it's finished, reset the nav mesh position
+        if (human_v2_Controller.GetCurrentAnimatorStateInfo(0).IsName("Handshake") &&
+            human_v2_Controller.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        {
+            ResetNavMeshPosition();
+        }
+    }*/
 }
