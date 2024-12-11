@@ -38,10 +38,11 @@ public class CustomEditorWindow : EditorWindow
     public GameObject virtualNavMesh;  // The virtual nav mesh object
     private Vector3 originalPosition;  // Store the original position of the nav mesh
     public NavMeshAgent navMeshAgent; // NavMeshAgent for controlling movement
+
 	
     [MenuItem("Window/Custom Editor Window")]
     public static void ShowWindow()
-    {
+    { 
         GetWindow<CustomEditorWindow>("Custom Editor");
     }
 
@@ -57,6 +58,7 @@ public class CustomEditorWindow : EditorWindow
         {
             human_v2_Controller = human_v2.GetComponent<Animator>();
         }
+	
     }
 
     public void OnDisable()
@@ -69,6 +71,7 @@ public class CustomEditorWindow : EditorWindow
 
     public void OnGUI()
     {
+		 
         // Create a custom style for the title
         GUIStyle titleStyle = new GUIStyle(EditorStyles.boldLabel)
         {
@@ -117,10 +120,17 @@ public class CustomEditorWindow : EditorWindow
 
         // Avatar Buttons in a Vertical Column
         GUILayout.BeginVertical();
-		if (GUILayout.Button("Avatar Enters", GUILayout.Width(100)))
+		 GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
+		if (GUILayout.Button("Enters", GUILayout.Width(50)))
         {
             StartWomanFollow();
         }
+		if (GUILayout.Button("Exits", GUILayout.Width(50)))
+        {
+            SwitchTarget();
+        }
+		 GUILayout.EndHorizontal(); // Start a horizontal layout for avatars and actions
+		
         if (GUILayout.Button("Avatar#1", GUILayout.Width(100)))
         {
             PlayAudio(Avatar1Clip);
@@ -263,7 +273,23 @@ private void PlayStepClip(int index)
             audioSource.Play();
         }
     }
-
+	 public void SwitchTarget()
+    {
+        WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
+        if (womanFollow != null)
+        {
+            womanFollow.SwitchTarget();
+			human_v2_Controller = human_v2.GetComponent<Animator>();
+          // Set the isWalking trigger to start walking animation
+            human_v2_Controller.SetTrigger("isWalking");
+			StartWomanFollow();
+            Debug.Log("Switch Target started.");
+        }
+        else
+        {
+            Debug.LogWarning("WomanFollow component not found in the scene.");
+        }
+	}
      public void StartWomanFollow()
     {
         WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
@@ -272,7 +298,7 @@ private void PlayStepClip(int index)
             womanFollow.StartFollowing();
 			human_v2_Controller = human_v2.GetComponent<Animator>();
           // Set the isWalking trigger to start walking animation
-        human_v2_Controller.SetTrigger("isWalking");
+            human_v2_Controller.SetTrigger("isWalking");
             Debug.Log("Woman started following.");
         }
         else
@@ -325,6 +351,7 @@ private void PlayStepClip(int index)
             Debug.LogWarning("WomanFollow component not found in the scene.");
         }
     }
+	}
 	
 /*	 // Method to start the handshake animation
     void StartHandshake()
@@ -368,4 +395,4 @@ private void PlayStepClip(int index)
             ResetNavMeshPosition();
         }
     }*/
-}
+
