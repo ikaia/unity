@@ -25,6 +25,7 @@ public class CustomEditorWindow : EditorWindow
     public AudioSource audioSource;
     
     public GameObject human_v2;
+	public GameObject LightSwitchControl; //Control Lights Day/Night
 	private Animator human_v2_Controller;
 
    // Carousel variables
@@ -58,6 +59,8 @@ public class CustomEditorWindow : EditorWindow
         {
             human_v2_Controller = human_v2.GetComponent<Animator>();
         }
+		
+		 LightSwitchControl = GameObject.Find("LightSwitchControl");//Find GameObject to Control Lights Day/Night
 	
     }
 
@@ -82,6 +85,8 @@ public class CustomEditorWindow : EditorWindow
 
         // Use the custom style for the title
         GUILayout.Label("The Control Panel", titleStyle);
+		// BEGIN SCROLL VIEW - Add this to start the scrollable area
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.Width(position.width), GUILayout.Height(position.height - 20));
 
         GUILayout.Label("Audio Clips", EditorStyles.boldLabel);
 
@@ -115,7 +120,7 @@ public class CustomEditorWindow : EditorWindow
 		    // Call the method to display the carousel of steps
         DisplayCarousel();
        
-		GUILayout.Label("----- Steps #1 -----", EditorStyles.boldLabel);
+		GUILayout.Label("--- Steps #1 ---", EditorStyles.boldLabel);
          GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
 
         // Avatar Buttons in a Vertical Column
@@ -131,27 +136,27 @@ public class CustomEditorWindow : EditorWindow
         }
 		 GUILayout.EndHorizontal(); // Start a horizontal layout for avatars and actions
 		
-        if (GUILayout.Button("Avatar#1", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#1", GUILayout.Width(100)))
         {
             PlayAudio(Avatar1Clip);
         }
-        if (GUILayout.Button("Avatar#2", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#2", GUILayout.Width(100)))
         {
             PlayAudio(Avatar2Clip);
         }
-        if (GUILayout.Button("Avatar#3", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#3", GUILayout.Width(100)))
         {
             PlayAudio(Avatar3Clip);
         }
-        if (GUILayout.Button("Avatar#4", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#4", GUILayout.Width(100)))
         {
             PlayAudio(Avatar4Clip);
         }
-        if (GUILayout.Button("Avatar#5", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#5", GUILayout.Width(100)))
         {
             PlayAudio(Avatar5Clip);
         }
-        if (GUILayout.Button("Avatar#6", GUILayout.Width(100)))
+        if (GUILayout.Button("Talk#6", GUILayout.Width(100)))
         {
             PlayAudio(Avatar6Clip);
         }
@@ -178,23 +183,28 @@ public class CustomEditorWindow : EditorWindow
             StopWomanFollow();
             Debug.Log("Reset button clicked");
         }
-          GUILayout.EndVertical();
+		
+        GUILayout.EndVertical();
 
         GUILayout.EndHorizontal(); // End the horizontal layout
+		
 
         GUILayout.Space(20);
-        
-		GUILayout.Label("----- Environment -----", EditorStyles.boldLabel);
+       GUILayout.Label("--- Settings ---", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Day", GUILayout.Width(50)))
         {
+            LightSwitchControl.SetActive(false); //Control Lights Day/Night
             Debug.Log("Day Clicked");
         }
         if (GUILayout.Button("Night", GUILayout.Width(50)))
         {
+            LightSwitchControl.SetActive(true); //Control Lights Day/Night
             Debug.Log("Night Clicked");
         }
         GUILayout.EndHorizontal();
+		 // END SCROLL VIEW - Add this to end the scrollable area
+        EditorGUILayout.EndScrollView();
     }
 
 
