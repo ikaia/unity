@@ -14,7 +14,7 @@ public class CustomEditorWindow : EditorWindow
     public AudioClip Narration8Clip;
     public AudioClip Narration9Clip;
     public AudioClip Narration10Clip;
-    public AudioClip Narration11Clip;
+  
     
     public AudioClip Avatar1Clip;
     public AudioClip Avatar2Clip;
@@ -24,7 +24,7 @@ public class CustomEditorWindow : EditorWindow
     public AudioClip Avatar6Clip;
     public AudioSource audioSource;
     
-    public GameObject human_v2;
+    public GameObject human_v4;
 	public GameObject LightSwitchControl; //Control Lights Day/Night
 	private Animator human_v2_Controller;
 
@@ -51,13 +51,13 @@ public class CustomEditorWindow : EditorWindow
     {
         if (audioSource == null)
         {
-            human_v2 = GameObject.Find("Human_v2");
-            audioSource = human_v2.GetComponent<AudioSource>();
+            human_v4 = GameObject.Find("Human_v4");
+            audioSource = human_v4.GetComponent<AudioSource>();
         }
 		// Ensure the Animator is also found and assigned
-        if (human_v2 != null)
+        if (human_v4 != null)
         {
-            human_v2_Controller = human_v2.GetComponent<Animator>();
+            human_v2_Controller = human_v4.GetComponent<Animator>();
         }
 		
 		 LightSwitchControl = GameObject.Find("LightSwitchControl");//Find GameObject to Control Lights Day/Night
@@ -112,97 +112,112 @@ public class CustomEditorWindow : EditorWindow
         Narration8Clip = (AudioClip)EditorGUILayout.ObjectField("Narration#8 Clip", Narration8Clip, typeof(AudioClip), false);
         Narration9Clip = (AudioClip)EditorGUILayout.ObjectField("Narration#9 Clip", Narration9Clip, typeof(AudioClip), false);
         Narration10Clip = (AudioClip)EditorGUILayout.ObjectField("Narration#10 Clip", Narration10Clip, typeof(AudioClip), false);
-        Narration11Clip = (AudioClip)EditorGUILayout.ObjectField("Narration#11 Clip", Narration11Clip, typeof(AudioClip), false);
-
-    
 
         GUILayout.EndVertical();
 		    // Call the method to display the carousel of steps
         DisplayCarousel();
        
-		GUILayout.Label("--- Steps #1 ---", EditorStyles.boldLabel);
-         GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
+GUILayout.Label(" ---- Male ----", EditorStyles.boldLabel);
+GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
 
-        // Avatar Buttons in a Vertical Column
-        GUILayout.BeginVertical();
-		 GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
-		if (GUILayout.Button("Enters", GUILayout.Width(50)))
-        {
-            StartWomanFollow();
-        }
-		if (GUILayout.Button("Exits", GUILayout.Width(50)))
-        {
-            SwitchTarget();
-        }
-		 GUILayout.EndHorizontal(); // Start a horizontal layout for avatars and actions
-		
-        if (GUILayout.Button("Talk#1", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar1Clip);
-        }
-        if (GUILayout.Button("Talk#2", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar2Clip);
-        }
-        if (GUILayout.Button("Talk#3", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar3Clip);
-        }
-        if (GUILayout.Button("Talk#4", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar4Clip);
-        }
-        if (GUILayout.Button("Talk#5", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar5Clip);
-        }
-        if (GUILayout.Button("Talk#6", GUILayout.Width(100)))
-        {
-            PlayAudio(Avatar6Clip);
-        }
-        GUILayout.EndVertical();
-		
-		
-        GUILayout.BeginVertical();
-		 // Handshake, Hug, and Reset Buttons in a Vertical Column Beside Avatars
-		 //GUILayout.Label("----- Conditions #1 -----", EditorStyles.boldLabel);
-        if (GUILayout.Button("Handshake", GUILayout.Width(75)))
-        {
-			
-            TriggerHandshakeAnimation();
-			//StartHandshake();
-            Debug.Log("Button Handshake Clicked");
-        }
-        if (GUILayout.Button("Hug", GUILayout.Width(75)))
-        {
-			TriggerHugAnimation();
-            Debug.Log("Button Hug Clicked");
-        }
-        if (GUILayout.Button("Reset", GUILayout.Width(75)))
-        {
-            StopWomanFollow();
-            Debug.Log("Reset button clicked");
-        }
-		
-        GUILayout.EndVertical();
+// Avatar Buttons in a Vertical Column on the Left
+GUILayout.BeginVertical();
+GUILayout.BeginHorizontal(); // Start a horizontal layout for avatars and actions
 
-        GUILayout.EndHorizontal(); // End the horizontal layout
-		
+if (GUILayout.Button("Enters", GUILayout.Width(50)))
+{
+    StartWomanFollow();
+}
+if (GUILayout.Button("Exits", GUILayout.Width(50)))
+{
+    SwitchTarget();
+}
+GUILayout.EndHorizontal(); // End horizontal layout for avatars and actions
 
-        GUILayout.Space(20);
-       GUILayout.Label("--- Settings ---", EditorStyles.boldLabel);
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Day", GUILayout.Width(50)))
-        {
-            LightSwitchControl.SetActive(false); //Control Lights Day/Night
-            Debug.Log("Day Clicked");
-        }
-        if (GUILayout.Button("Night", GUILayout.Width(50)))
-        {
-            LightSwitchControl.SetActive(true); //Control Lights Day/Night
-            Debug.Log("Night Clicked");
-        }
-        GUILayout.EndHorizontal();
+if (GUILayout.Button("Talk#1", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar1Clip);
+}
+if (GUILayout.Button("Talk#2", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar2Clip);
+}
+if (GUILayout.Button("Talk#3", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar3Clip);
+}
+if (GUILayout.Button("Talk#4", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar4Clip);
+}
+if (GUILayout.Button("Talk#5", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar5Clip);
+}
+if (GUILayout.Button("Talk#6", GUILayout.Width(100)))
+{
+    PlayAudio(Avatar6Clip);
+}
+GUILayout.EndVertical();
+
+// Handshake, Hug, and Reset Buttons in a Vertical Column Beside Avatars
+GUILayout.Space(170);
+
+
+GUILayout.BeginVertical(); // Start a vertical layout for conditions and settings
+// Move the conditions section slightly to the right
+GUILayout.BeginHorizontal(); // Start horizontal layout for conditions and settings
+GUILayout.Space(8); // Adjust space to move it about 10 cm to the right
+
+GUILayout.BeginVertical(); // Start vertical layout for the right section
+GUILayout.Label("-- Options --", EditorStyles.boldLabel);
+if (GUILayout.Button("Handshake", GUILayout.Width(75)))
+{
+    TriggerHandshakeAnimation();
+    Debug.Log("Button Handshake Clicked");
+}
+if (GUILayout.Button("Hug", GUILayout.Width(75)))
+{
+    TriggerHugAnimation();
+    Debug.Log("Button Hug Clicked");
+}
+if (GUILayout.Button("Reset", GUILayout.Width(75)))
+{
+    StopWomanFollow();
+    Debug.Log("Reset button clicked");
+}
+
+GUILayout.Space(20);
+GUILayout.Label("-- Settings --", EditorStyles.boldLabel);
+
+if (LightSwitchControl != null)
+{
+    GUILayout.BeginHorizontal();
+    if (GUILayout.Button("Day", GUILayout.Width(40)))
+    {
+        LightSwitchControl.SetActive(false); // Control Lights Day/Night
+        Debug.Log("Day Clicked");
+    }
+    if (GUILayout.Button("Night", GUILayout.Width(40)))
+    {
+        LightSwitchControl.SetActive(true); // Control Lights Day/Night
+        Debug.Log("Night Clicked");
+    }
+    GUILayout.EndHorizontal();
+}
+else
+{
+    GUILayout.Label("LightSwitchControl is not assigned or found.", EditorStyles.boldLabel);
+}
+
+GUILayout.EndVertical(); // End vertical layout for right section
+GUILayout.EndHorizontal(); // End horizontal layout for conditions and settings
+
+GUILayout.EndVertical(); // End vertical layout for conditions and settings
+GUILayout.EndHorizontal(); // End the horizontal layout
+
+
+  
 		 // END SCROLL VIEW - Add this to end the scrollable area
         EditorGUILayout.EndScrollView();
     }
@@ -267,7 +282,7 @@ private void PlayStepClip(int index)
         7 => Narration8Clip,
         8 => Narration9Clip,
         9 => Narration10Clip,
-        10 => Narration11Clip,  // Added the 11th clip
+         // Added the 11th clip
         _ => null
     };
 
@@ -289,7 +304,7 @@ private void PlayStepClip(int index)
         if (womanFollow != null)
         {
             womanFollow.SwitchTarget();
-			human_v2_Controller = human_v2.GetComponent<Animator>();
+			human_v2_Controller = human_v4.GetComponent<Animator>();
           // Set the isWalking trigger to start walking animation
             human_v2_Controller.SetTrigger("isWalking");
 			StartWomanFollow();
@@ -306,7 +321,7 @@ private void PlayStepClip(int index)
         if (womanFollow != null)
         {
             womanFollow.StartFollowing();
-			human_v2_Controller = human_v2.GetComponent<Animator>();
+			human_v2_Controller = human_v4.GetComponent<Animator>();
           // Set the isWalking trigger to start walking animation
             human_v2_Controller.SetTrigger("isWalking");
             Debug.Log("Woman started following.");
@@ -336,7 +351,7 @@ private void PlayStepClip(int index)
 		WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
         if (womanFollow != null)
         {
-			human_v2_Controller = human_v2.GetComponent<Animator>();
+			human_v2_Controller = human_v4.GetComponent<Animator>();
            // Set the isReachOut trigger to start animation
             human_v2_Controller.SetTrigger("isReachOut");
             Debug.Log("Woman started reached out Hand.");
@@ -351,7 +366,7 @@ private void PlayStepClip(int index)
 		WomanFollow womanFollow = FindObjectOfType<WomanFollow>();
         if (womanFollow != null)
         {
-			human_v2_Controller = human_v2.GetComponent<Animator>();
+			human_v2_Controller = human_v4.GetComponent<Animator>();
            // Set the isReachOut trigger to start animation
             human_v2_Controller.SetTrigger("isHug");
             Debug.Log("Woman started to Hug.");
