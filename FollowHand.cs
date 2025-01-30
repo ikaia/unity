@@ -105,7 +105,7 @@ public class FollowHand : MonoBehaviour
     }
 }
 */
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -185,4 +185,58 @@ public class FollowHand : MonoBehaviour
 
         Debug.Log("Object attached!");
     }
+}*/
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+
+public class FollowHand : MonoBehaviour
+{
+    public Transform avatar; // Reference to the avatar's Transform
+    public float distance = 0.49f; // Distance in front of the avatar
+    public float fixedY = 3.97f; // Desired fixed height (Y position)
+    public Vector3 fixedRotation = new Vector3(0, 0, 0); // Fixed rotation (X, Y, Z)
+
+    public XRController rightController; // Reference to the XR Controller (Oculus Device-Based)
+    private bool hasBeenGrabbed = false; // Track if the object has been grabbed
+    private bool isCurrentlyGrabbed = false; // Track if the grip is currently held
+
+    void LateUpdate()
+    {
+        if (!hasBeenGrabbed && avatar != null)
+        {
+            // Calculate the position in front of the avatar
+            Vector3 frontPosition = avatar.position + avatar.forward * distance;
+
+            // Set the Y position to the fixed value
+            frontPosition.y = fixedY;
+
+            // Apply the calculated position
+            transform.position = frontPosition;
+
+            // Set the fixed rotation
+            transform.rotation = Quaternion.Euler(fixedRotation);
+        }
+
+        // Check grip button press
+        if (rightController.inputDevice.IsPressed(InputHelpers.Button.Grip, out bool isGripPressed))
+        {
+            if (isGripPressed && !hasBeenGrabbed)
+            {
+                hasBeenGrabbed = true; // Mark that the object has been grabbed once
+                isCurrentlyGrabbed = true; // Track that the grip is still being held
+                Debug.Log("Object grabbed!");
+            }
+            else if (!isGripPressed && hasBeenGrabbed && isCurrentlyGrabbed)
+            {
+                Destroy(gameObject); // Destroy the object when the grip is released
+                Debug.Log("Object released and destroyed!");
+            }
+        }
+    }
 }
+
